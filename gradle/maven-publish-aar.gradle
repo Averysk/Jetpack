@@ -1,0 +1,88 @@
+
+apply plugin: 'maven-publish'
+
+def releasesRepoUrl = "http://192.168.1.58:9081/repository/hongsu-releases/"
+def snapshotsRepoUrl = "http://192.168.1.58:9081/repository/hongsu-snapshots/"
+
+def pom_group = project.ext.POM_GROUP
+def pom_artifact = project.ext.POM_ARTIFACT_ID
+def pom_version = project.ext.POM_VERSION
+def useSnapShot = "${USE_SNAPSHOT}".toBoolean()
+if (useSnapShot && !pom_version.endsWith("SNAPSHOT")) {
+    //pom_version = pom_version + "-SNAPSHOT"
+    pom_version = pom_version + "-${project.getDateTime()}" + "-SNAPSHOT"
+}
+println("====== Maven Publish 开始=====")
+println("上传版本: ${pom_version}")
+
+afterEvaluate {
+    publishing {
+        //发布的 arr 包配置
+        publications {
+            //名字可以自己指定，如果有多渠道，整段多复制一个
+            release(MavenPublication) {
+
+                groupId = pom_group
+                artifactId = pom_artifact
+                version = pom_version
+
+                // 第一种方法
+                // 必须有这个 否则不会上传AAR包
+                afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) }
+                // 上传source，这样使用方可以看到方法注释
+                artifact generateSourcesJar
+
+                //依赖关系
+                pom.withXml{
+                    def dependenciesNode = asNode().appendNode("dependencies")
+                    configurations.implementation.allDependencies.forEach(){
+                        Dependency dependency ->
+                            if (dependency.version != "unspecified" && dependency.name != "unspecified"){
+                                def dependencyNode = dependenciesNode.appendNode('dependency')
+                                dependencyNode.appendNode('groupId', dependency.group)
+                                dependencyNode.appendNode('artifactId', dependency.name)
+                                dependencyNode.appendNode('version', dependency.version)
+                            }
+                    }
+                }
+
+                // 第二种方法(旧方法)
+                //from components.release
+                //artifact androidSourcesCodeJar
+
+            }
+        }
+
+        //仓库地址配置
+        repositories {
+            maven {
+                //允许使用 http
+                allowInsecureProtocol = true
+                url = useSnapShot ? snapshotsRepoUrl : releasesRepoUrl
+                println("上传地址: ${url}")
+
+                credentials {
+                    username "admin"
+                    password "admin123"
+                }
+            }
+        }
+
+    }
+    publish.doLast {
+        def file = new File(project.buildDir, "pom_version")
+        file.write("${pom_group}:${pom_artifact}:${pom_version}")
+        println("====== Maven Publish 结束=====")
+        println("上传版本: ${pom_group}:${pom_artifact}:${pom_version}")
+    }
+}
+
+task generateSourcesJar(type:Jar){
+    from android.sourceSets.main.java.srcDirs
+    classifier "sources"
+}
+
+task androidSourcesCodeJar(type: Jar) {
+    getArchiveClassifier().set('sources')
+    from android.sourceSets.main.java.source
+}

@@ -1,0 +1,38 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            allowInsecureProtocol = true
+            url "http://192.168.1.58:9081/repository/hongsu-public/"
+            credentials {
+                username "admin"
+                password "admin123"
+            }
+        }
+        maven { url 'https://jitpack.io' }
+        //阿里云jcenter仓库
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+    }
+}
+rootProject.name = "base-android"
+include ':app'
+include ':app_danmaku'
+include ':maven-test'
+include ':hs_jetpack'
+include ':hs_widget'
+include ':hs_utils'
+include ':hs_widget_scrollframe'
+include ':github_danmaku'
+include ':github_smooth_navigation'
+
+
+include ':github_wheelview'

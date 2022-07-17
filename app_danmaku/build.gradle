@@ -1,0 +1,46 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "top.littlefogcat.easydanmaku.sample"
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation "androidx.core:core-ktx:${versions.v_androidx_core}"
+    implementation "androidx.appcompat:appcompat:${versions.v_androidx_appcompat}"
+    implementation "com.google.android.material:material:${versions.v_androidx_material}"
+    implementation "androidx.constraintlayout:constraintlayout:${versions.v_androidx_constraintlayout}"
+    testImplementation "junit:junit:${versions.v_androidx_junit}"
+    androidTestImplementation "androidx.test.ext:junit:${versions.v_androidx_text_junit}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${versions.v_androidx_text_espresso_core}"
+
+    //implementation project(":github_danmaku")
+    implementation 'com.hongsu.github:easydanmaku:1.0.0'
+}

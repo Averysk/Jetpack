@@ -1,0 +1,52 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.hongsu.project"
+
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+
+        minSdk 21
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility sourceCompatibility
+        targetCompatibility targetCompatibility
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation "androidx.core:core-ktx:${versions.v_androidx_core}"
+    implementation "androidx.appcompat:appcompat:${versions.v_androidx_appcompat}"
+    implementation "com.google.android.material:material:${versions.v_androidx_material}"
+    implementation "androidx.constraintlayout:constraintlayout:${versions.v_androidx_constraintlayout}"
+    testImplementation "junit:junit:${versions.v_androidx_junit}"
+    androidTestImplementation "androidx.test.ext:junit:${versions.v_androidx_text_junit}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${versions.v_androidx_text_espresso_core}"
+
+    //implementation project(":maven-test")
+    implementation 'com.hongsu.test:maven-test:1.0.0-06161525-SNAPSHOT'
+    //implementation project(":hs_jetpack")
+    implementation 'com.hongsu.jetpack:jetpack:1.0.1-07131710-SNAPSHOT'
+}

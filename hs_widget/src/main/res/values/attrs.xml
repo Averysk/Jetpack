@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--数字密码输入EditView-->
+    <declare-styleable name="CEditText">
+        <!--view的高度-->
+        <attr name="height" format="dimension" />
+        <!--矩形数目-->
+        <attr name="count" format="integer" />
+        <!--边框宽度-->
+        <attr name="lineWidth" format="dimension" />
+        <!--边框颜色-->
+        <attr name="lineColor" format="color" />
+        <!--焦点边框颜色-->
+        <attr name="focusLineColor" format="color" />
+        <!--填充颜色-->
+        <attr name="stokesColor" format="color" />
+        <!--焦点填充颜色-->
+        <attr name="focusStokeColor" format="color" />
+        <!--边框之间间隔-->
+        <attr name="spaceWidth" format="dimension" />
+        <!--文字的颜色-->
+        <attr name="textColor" format="color" />
+        <!--文字大小-->
+        <attr name="textSize" format="dimension" />
+        <!--是绘制圆还是文字；true绘制圆，false绘制文字-->
+        <attr name="isDrawCircle" format="boolean" />
+        <!--如果不显示文字则绘制圆，此为圆半径-->
+        <attr name="circleRadius" format="dimension" />
+        <!--如果不显示文字则绘制圆，此为圆填充色-->
+        <attr name="circleColor" format="color" />
+        <!--是否绘制填充，true绘制，false不绘制-->
+        <attr name="isDrawFill" format="boolean" />
+        <!--是否绘制边框，true绘制，false不绘制-->
+        <attr name="isDrawLine"  format="boolean"/>
+        <!--是否只绘制边框底线，true绘制，false不绘制(isDrawLine 为true 时生效)-->
+        <attr name="isDrawBottomLine" format="boolean" />
+    </declare-styleable>
+
+
+</resources>

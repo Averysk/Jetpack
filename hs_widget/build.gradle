@@ -1,0 +1,47 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+ext {
+    POM_GROUP = "com.hongsu.widget"
+    POM_ARTIFACT_ID = "widget"
+    POM_VERSION = "1.0.0"
+}
+if (new File("${rootDir}/gradle/maven-publish-aar.gradle").exists()) {
+    apply from: "${rootDir}/gradle/maven-publish-aar.gradle"
+}
+android {
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation "androidx.core:core-ktx:${versions.v_androidx_core}"
+    implementation "androidx.appcompat:appcompat:${versions.v_androidx_appcompat}"
+    implementation "com.google.android.material:material:${versions.v_androidx_material}"
+    testImplementation "junit:junit:${versions.v_androidx_junit}"
+    androidTestImplementation "androidx.test.ext:junit:${versions.v_androidx_text_junit}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${versions.v_androidx_text_espresso_core}"
+}

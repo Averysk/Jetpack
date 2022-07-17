@@ -1,0 +1,11 @@
+
+
+Properties versionProperties = new Properties()
+
+versionProperties.load(new File(rootDir, "gradle/versions.properties").newDataInputStream())
+
+def versions=[:]
+versionProperties.entrySet().each {
+    versions[it.key] = it.value
+}
+ext.versions = versions

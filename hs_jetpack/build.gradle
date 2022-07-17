@@ -1,0 +1,99 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+ext {
+    POM_GROUP = "com.hongsu.jetpack"
+    POM_ARTIFACT_ID = "jetpack"
+    POM_VERSION = "1.0.1"
+}
+if (new File("${rootDir}/gradle/maven-publish-aar.gradle").exists()) {
+    apply from: "${rootDir}/gradle/maven-publish-aar.gradle"
+}
+
+android {
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "androidx.core:core-ktx:${versions.v_androidx_core}"
+    implementation "androidx.appcompat:appcompat:${versions.v_androidx_appcompat}"
+    implementation "com.google.android.material:material:${versions.v_androidx_material}"
+    testImplementation "junit:junit:${versions.v_androidx_junit}"
+    androidTestImplementation "androidx.test.ext:junit:${versions.v_androidx_text_junit}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${versions.v_androidx_text_espresso_core}"
+
+    //lifecycle
+    //https://developer.android.com/jetpack/androidx/releases/lifecycle?hl=zh-cn
+    //仅生命周期（没有 ViewModel 或 LiveData）
+    api "androidx.lifecycle:lifecycle-runtime-ktx:${versions.v_lifecycle}"
+    //如果使用 Java8，请使用以下内容而不是生命周期编译器
+    api "androidx.lifecycle:lifecycle-common-java8:${versions.v_lifecycle}"
+    //lifecycle-extensions 中的 API 已弃用
+    //api "androidx.lifecycle:lifecycle-extensions:${versions.v_lifecycle_extensions}"
+    //viewModel
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.v_lifecycle}"
+    //viewModel 实用程序,用于 Jetpack Compose 集成
+    //api "androidx.lifecycle:lifecycle-viewmodel-compose:${versions.v_lifecycle}"
+    // liveData
+    api "androidx.lifecycle:lifecycle-livedata-ktx:${versions.v_lifecycle}"
+
+    //fragment
+    api "androidx.fragment:fragment-ktx:${versions.v_fragment}"
+
+    //navigation
+    api "androidx.navigation:navigation-fragment-ktx:${versions.v_navigation}"
+    api "androidx.navigation:navigation-ui-ktx:${versions.v_navigation}"
+    //navigation 实用程序,用于 Jetpack Compose 集成
+    api "androidx.navigation:navigation-compose:${versions.v_navigation}"
+
+    //kunminx
+    //DataBinding 严格模式基础框架
+    //api "com.kunminx.arch:strict-databinding:${versions.v_kunminx_databinding}"
+    //UnPeek-LiveData 解决 “数据倒灌” 困扰 7.3.0 以上 要求 minsdk 23
+    //https://github.com/KunMinX/UnPeek-LiveData
+    api "com.kunminx.arch:unpeek-livedata:${versions.v_kunminx_livedata}"
+    //提供安全可靠的 Navigation 操作，解决 GitHub 上开源的 "Navigation Add Hide 修改版"
+    //普遍存在的 "popUpToInclusive 导致 Fragment 不符预期地加载" 等问题
+    //https://github.com/KunMinX/Smooth-Navigation
+    //api project(":github_smooth_navigation")
+    api "com.hongsu.github:smooth-navigation:${versions.v_github_smooth_navigation}"
+
+
+    //retrofit
+    api "com.squareup.retrofit2:retrofit:${versions.v_retrofit}"
+    api "com.squareup.retrofit2:converter-gson:${versions.v_retrofit}"
+    api "com.squareup.retrofit2:converter-scalars:${versions.v_retrofit}"
+    api "com.github.franmontiel:PersistentCookieJar:${versions.v_persistent_cookie_jar}"
+    //动态替换BaseUrl库 使用可参考 https://github.com/JessYanCoding/RetrofitUrlManager
+    api "me.jessyan:retrofit-url-manager:${versions.v_retrofit_url_manager}"
+
+}
